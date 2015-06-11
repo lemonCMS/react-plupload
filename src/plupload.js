@@ -54,6 +54,10 @@ module.exports = React.createClass({
 		uploader.refresh();
 	},
 
+	componentDidUpdate: function() {
+		this.refresh();
+	},
+
 	componentDidMount: function () {
 		var self = this;
 		this.initUploader();
@@ -74,28 +78,57 @@ module.exports = React.createClass({
 				f.push(file);
 			});
 			self.setState({files: f});
-			self.refresh();
+			//self.refresh();
+		});
+
+		uploader.bind('FilesRemoved', function(up, rmFiles) {
+			console.log('FILESREMOVED.x ', rmFiles);
+			var stateFiles = self.state.files;
+			
+			
+			var files = _.filter(stateFiles, function(file) {
+				return undefined === _.findWhere(rmFiles, {id: file.id});
+			});
+
+			self.setState({files: files});
+			//self.refresh();
 		});
 	},
 
 	componentWillUpdate: function() {
-		console.log('Crapsss');
+		
 	},
 
 
 	//Display selected files
 	lis: function() {
+		var self = this;
 		return _.map(this.state.files, function(val, key) {
-			return React.DOM.li('', val.name);
+			
+
+			var removeFile = function(e) {
+				e.preventDefault();
+				self.removeFile(val.id);
+			}
+
+			var delButton =  React.DOM.button({onClick: removeFile, className: 'pull-right'}, 'X');
+
+			return React.DOM.li({key: val.id}, val.name, ' ', delButton);
 		});
-
-
 	},
 
 
+	removeFile: function(id) {
+		var self = this;
+		uploader.removeFile(id);
+		var files = _.filter(this.state.files, function(file) {
+		    return file['id']!=id;
+		});
+	},
+
 	doUpload: function(e) {
 		e.preventDefault();
-		console.log('start upload');
+		uploader.start();
 	},
 
 	render: function() {
@@ -114,7 +147,7 @@ module.exports = React.createClass({
 		var lis = this.lis();
 
 		return 	React.DOM.div({ className: 'my-list' },
-					React.DOM.ul(null, lis),
+					React.DOM.ul({className: 'list-unstyled'}, lis),
 					BrowseButton(propsSelect),
 					UploadButton(propsUpload)
 				);
