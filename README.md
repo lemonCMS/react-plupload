@@ -3,9 +3,17 @@
 Use plupload functionality to upload files in your React application
 
 
-Version 0.0.2
+##Version 0.0.4
+- Added - Upload is working
+- Added - Remove file from queue button
+
+##Version 0.0.2
 - Does not try to upload anything yet, just got the file selector working.
 
+
+##Wishlist
+- progressbar
+- remove delete from queue button while uploading
 
 Usage
 - Download plupload from http://www.plupload.com, put the files in accesable folder on your webserver.

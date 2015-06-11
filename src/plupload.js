@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var React = require('react');
-
+var count = 0;
 var EVENTS = [
 'PostInit', 'Browse', 'Refresh', 'StateChanged', 'QueueChanged', 'OptionChanged',
 'BeforeUpload', 'UploadProgress', 'FileFiltered', 'FilesAdded', 'FilesRemoved', 'FileUploaded', 'ChunkUploaded',
@@ -36,8 +36,8 @@ module.exports = React.createClass({
 	},
 
 	componentWillMount: function () {
-		//this.id = this.id || uuid();
-		this.id = 'Test';
+		this.id = this.id || "react_plupload_" + count++;
+		
 	},
 
 	initUploader: function() {
@@ -78,27 +78,18 @@ module.exports = React.createClass({
 				f.push(file);
 			});
 			self.setState({files: f});
-			//self.refresh();
 		});
 
 		uploader.bind('FilesRemoved', function(up, rmFiles) {
 			console.log('FILESREMOVED.x ', rmFiles);
 			var stateFiles = self.state.files;
-			
-			
 			var files = _.filter(stateFiles, function(file) {
 				return undefined === _.findWhere(rmFiles, {id: file.id});
 			});
 
 			self.setState({files: files});
-			//self.refresh();
 		});
 	},
-
-	componentWillUpdate: function() {
-		
-	},
-
 
 	//Display selected files
 	lis: function() {
