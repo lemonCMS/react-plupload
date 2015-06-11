@@ -1,0 +1,19 @@
+{
+  "name": "react-plupload",
+  "version": "0.0.3",
+  "description": "React plugin for plupload",
+  "main": "src/plupload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "plupload"
+  ],
+  "author": "Raymond van Vuuren",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "lodash": "3.8.0",
+    "react": "^0.13.0"
+  }
+}
