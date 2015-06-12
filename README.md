@@ -2,6 +2,9 @@
 
 Use plupload functionality to upload files in your React application
 
+##Version 0.0.6
+- Added - Progressbar
+- Added - Errorhandling
 
 ##Version 0.0.4
 - Added - Upload is working
@@ -12,8 +15,8 @@ Use plupload functionality to upload files in your React application
 
 
 ##Wishlist
-- progressbar
-- remove delete from queue button while uploading
+- ~~progressbar~~
+- ~~remove delete from queue button while uploading~~
 
 
 Usage
