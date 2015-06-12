@@ -2,6 +2,8 @@
 
 Use plupload functionality to upload files in your React application
 
+GitHub: https://github.com/lemonCMS/react-plupload
+
 ##Version 0.0.6
 - Added - Progressbar
 - Added - Errorhandling
