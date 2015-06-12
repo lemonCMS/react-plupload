@@ -15,6 +15,7 @@ Use plupload functionality to upload files in your React application
 - progressbar
 - remove delete from queue button while uploading
 
+
 Usage
 - Download plupload from http://www.plupload.com, put the files in accesable folder on your webserver.
 - Link to de plupload js <script src="/assets/plupload-2.1.4/js/plupload.full.min.js"></script>
