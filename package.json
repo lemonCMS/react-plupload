@@ -1,6 +1,6 @@
 {
   "name": "react-plupload",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "React plugin for plupload",
   "main": "lib/Plupload.js",
   "scripts": {
@@ -18,8 +18,7 @@
   ],
   "author": "Raymond van Vuuren",
   "license": "BSD-2-Clause",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "output-file-sync": "^1.1.1",
     "babel": "5.8.29",
