@@ -26,7 +26,7 @@ https://github.com/erikras/react-redux-universal-hot-example
 
 
 GitHub: https://github.com/lemonCMS/react-plupload
-##Version 0.0.6
+##Version 0.0.8
 - Added - Example
 - Added - build lib files
 - Upgrade react to 0.14
