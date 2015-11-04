@@ -2,7 +2,34 @@
 
 Use plupload functionality to upload files in your React application
 
+#Run Example
+````
+git clone 
+cd react-plupload/example
+npm install
+npm run dev
+````
+Made possible with the excellent boilerplate from
+https://github.com/erikras/react-redux-universal-hot-example
+
+#Basic usage
+````jsx
+<Plupload
+  id="plupload"
+  runtimes="flash"
+  multipart
+  chunk_size="1mb"
+  url="/"
+  flash_swf_url="/plupload-2.1.8/js/Moxie.swf"
+/>
+````
+
+
 GitHub: https://github.com/lemonCMS/react-plupload
+##Version 0.0.6
+- Added - Example
+- Added - build lib files
+- Upgrade react to 0.14
 
 ##Version 0.0.6
 - Added - Progressbar
