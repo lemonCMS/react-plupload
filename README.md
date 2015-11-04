@@ -4,7 +4,7 @@ Use plupload functionality to upload files in your React application
 
 #Run Example
 ````
-git clone 
+git clone https://github.com/lemonCMS/react-plupload.git
 cd react-plupload/example
 npm install
 npm run dev
