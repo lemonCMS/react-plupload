@@ -1,6 +1,6 @@
 {
   "name": "react-plupload",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "React plugin for plupload",
   "main": "lib/Plupload.js",
   "scripts": {
