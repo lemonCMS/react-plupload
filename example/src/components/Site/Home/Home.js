@@ -14,7 +14,7 @@ export default class Home extends React.Component {
         <h1>Home</h1>
         <Plupload
           id="plupload"
-          runtimes="flash"
+          runtimes="html5,flash,html4"
           multipart
           chunk_size="1mb"
           url="/"

@@ -46,10 +46,10 @@ module.exports = React.createFactory(React.createClass({
 
     this.uploader.init();
 
-    EVENTS.forEach((event) => {
+    EVENTS.forEach(function(event) {
       const handler = self.props['on' + event];
       if (typeof handler === 'function') {
-        uploader.bind(event, handler);
+        self.uploader.bind(event, handler);
       }
     });
 
@@ -62,7 +62,7 @@ module.exports = React.createFactory(React.createClass({
       self.setState({files: f});
     });
 
-    this. uploader.bind('FilesRemoved', (up, rmFiles) => {
+    this.uploader.bind('FilesRemoved', (up, rmFiles) => {
       const stateFiles = self.state.files;
       const files = _.filter(stateFiles, (file) => {
         return undefined === _.findWhere(rmFiles, {id: file.id});
