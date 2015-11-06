@@ -33,7 +33,8 @@ module.exports = React.createFactory(React.createClass({
     'onError': React.PropTypes.func,
     'id': React.PropTypes.string.isRequired,
     'buttonSelect': React.PropTypes.string,
-    'buttonUpload': React.PropTypes.string
+    'buttonUpload': React.PropTypes.string,
+    'autoUpload': React.PropTypes.bool
   },
 
   getInitialState() {
@@ -55,11 +56,21 @@ module.exports = React.createFactory(React.createClass({
 
     // Put the selected files into the current state
     this.uploader.bind('FilesAdded', (up, files) => {
+      if (_.get(self.props, 'multi_selection') === false) {
+        self.clearAllFiles();
+      } else {
+        self.clearFailedFiles();
+      }
+
       const f = self.state.files;
       _.map(files, (file) => {
         f.push(file);
       });
-      self.setState({files: f});
+      self.setState({files: f}, ()=> {
+        if (self.props.autoUpload === true) {
+          self.uploader.start();
+        }
+      });
     });
 
     this.uploader.bind('FilesRemoved', (up, rmFiles) => {
@@ -83,18 +94,20 @@ module.exports = React.createFactory(React.createClass({
       const stateFiles = self.state.files;
       _.map(stateFiles, (val, key) => {
         if (val.id === file.id) {
-          console.log('Found', file.id);
           val.uploaded = true;
           stateFiles[key] = val;
         }
       });
-      self.setState({files: stateFiles});
+      self.setState({files: stateFiles}, () => {
+        console.log(file.id);
+        self.removeFile(file.id);
+      });
+
     });
 
 
     this.uploader.bind('Error', (up, err) => {
       if (_.isUndefined(err.file) !== true) {
-        console.log('ERROR', err);
         const stateFiles = self.state.files;
         _.map(stateFiles, (val, key) => {
           if (val.id === err.file.id) {
@@ -184,6 +197,20 @@ module.exports = React.createFactory(React.createClass({
     });
   },
 
+  clearAllFiles() {
+    _.filter(this.state.files, (file) => {
+      this.uploader.removeFile(file.id);
+    });
+  },
+
+  clearFailedFiles() {
+    _.filter(this.state.files, (file) => {
+      if (file.error) {
+        this.uploader.removeFile(file.id);
+      }
+      return !file.error;
+    });
+  },
 
   removeFile(id) {
     this.uploader.removeFile(id);
