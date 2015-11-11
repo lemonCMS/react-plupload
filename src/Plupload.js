@@ -233,6 +233,7 @@ module.exports = React.createFactory(React.createClass({
 
     const propsUpload = {
       onClick: this.doUpload,
+      type: 'button',
       content: this.props.buttonUpload || 'Upload'
     };
     if (this.state.files.length === 0) propsUpload.disabled = 'disabled';

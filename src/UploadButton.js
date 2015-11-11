@@ -10,9 +10,7 @@ module.exports = React.createFactory(React.createClass({
   shouldComponentUpdate() {
     return true;
   },
-  componentWillUpdate() {
 
-  },
   render() {
     return React.createElement('button', _.omit(this.props, 'content'), this.props.content);
   }

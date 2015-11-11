@@ -14,6 +14,6 @@ module.exports = React.createFactory(React.createClass({
 
   },
   render() {
-    return React.createElement('button',_.omit(this.props, 'content'), this.props.content);
+    return React.createElement('button', _.omit(this.props, 'content'), this.props.content);
   }
 }));
