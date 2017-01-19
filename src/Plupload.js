@@ -10,8 +10,6 @@ const EVENTS = [
   'UploadComplete', 'Destroy', 'Error'
 ];
 
-let uploader;
-
 module.exports = React.createFactory(React.createClass({
   displayName: 'Plupload',
   propTypes: {
@@ -36,15 +34,18 @@ module.exports = React.createFactory(React.createClass({
     'buttonUpload': React.PropTypes.string,
     'autoUpload': React.PropTypes.bool
   },
-
+  id: new Date().valueOf(),
   getInitialState() {
     return {files: [], uploadState: false, progress: {}};
   },
 
-  componentDidMount() {
+  checkUploader() {
+    return window.plupload !== undefined;
+  },
+
+  runUploader() {
     const self = this;
     this.initUploader();
-
     this.uploader.init();
 
     EVENTS.forEach(function(event) {
@@ -76,7 +77,8 @@ module.exports = React.createFactory(React.createClass({
     this.uploader.bind('FilesRemoved', (up, rmFiles) => {
       const stateFiles = self.state.files;
       const files = _.filter(stateFiles, (file) => {
-        return undefined === _.findWhere(rmFiles, {id: file.id});
+        console.log(rmFiles, file);
+        return -1 !== _.find(rmFiles, {id: file.id});
       });
       self.setState({files: files});
     });
@@ -99,12 +101,9 @@ module.exports = React.createFactory(React.createClass({
         }
       });
       self.setState({files: stateFiles}, () => {
-        console.log(file.id);
         self.removeFile(file.id);
       });
-
     });
-
 
     this.uploader.bind('Error', (up, err) => {
       if (_.isUndefined(err.file) !== true) {
@@ -126,12 +125,29 @@ module.exports = React.createFactory(React.createClass({
     });
   },
 
+  componentDidMount() {
+    const self = this;
+    if(this.checkUploader()) {
+      this.runUploader();
+    } else {
+      setTimeout(function() {
+        if(self.checkUploader()) {
+          self.runUploader();
+        } else {
+          console.warn('Plupload has not initialized');
+        }
+      }, 500);
+    }
+  },
+
   componentDidUpdate() {
-    this.refresh();
+    if(this.checkUploader()) {
+      this.refresh();
+    }
   },
 
   getComponentId() {
-    return this.props.id || 'react_plupload_' + count++;
+    return this.props.id || 'react_plupload_' + this.id;
   },
 
   refresh() {
@@ -141,6 +157,7 @@ module.exports = React.createFactory(React.createClass({
 
   initUploader() {
     this.uploader = new window.plupload.Uploader(_.extend({
+      container:  'container' + this.id,
       runtimes: 'flash',
       multipart: true,
       chunk_size: '1mb',
@@ -240,7 +257,7 @@ module.exports = React.createFactory(React.createClass({
 
     const list = this.list();
 
-    return React.createElement('div', {className: 'my-list'},
+    return React.createElement('div', {className: 'my-list', id: 'container' + this.id},
       React.createElement('ul', {className: 'list-unstyled'}, list),
       browseButton(propsSelect),
       uploadButton(propsUpload)

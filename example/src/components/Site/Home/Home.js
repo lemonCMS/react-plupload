@@ -1,6 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import Plupload from 'react-plupload';
+import Plupload from '../../../../../src/Plupload';
 
 export default class Home extends React.Component {
   render() {
@@ -14,6 +14,7 @@ export default class Home extends React.Component {
         <h1>Home</h1>
         <Plupload
           id="plupload"
+          container="plupload"
           runtimes="html5,flash,html4"
           multipart
           chunk_size="1mb"
