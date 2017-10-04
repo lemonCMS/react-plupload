@@ -1,17 +1,21 @@
-import _ from 'lodash';
+import _omit from 'lodash/omit';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-module.exports = React.createFactory(React.createClass({
 
-  propTypes: {
-    'content': React.PropTypes.string
-  },
+class UploadButton extends React.Component {
 
   shouldComponentUpdate() {
     return true;
-  },
+  };
 
   render() {
-    return React.createElement('button', _.omit(this.props, 'content'), this.props.content);
+    return React.createElement('button', _omit(this.props, 'content'), this.props.content);
   }
-}));
+}
+
+UploadButton.propTypes = {
+  content: PropTypes.string
+};
+
+export default UploadButton;

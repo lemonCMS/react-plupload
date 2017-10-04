@@ -1,19 +1,22 @@
-import _ from 'lodash';
+import _omit from 'lodash/omit';
 import React from 'react';
+import PropTypes from 'proptypes';
 
-module.exports = React.createFactory(React.createClass({
-
-  propTypes: {
-    'content': React.PropTypes.string
-  },
+class BrowseButton extends React.Component {
 
   shouldComponentUpdate() {
     return false;
-  },
+  }
+
   componentWillUpdate() {
 
-  },
-  render() {
-    return React.createElement('button', _.omit(this.props, 'content'), this.props.content);
   }
-}));
+
+  render() {
+    return React.createElement('button', _omit(this.props, 'content'), this.props.content);
+  }
+}
+
+BrowseButton.propTypes = {
+  'content': PropTypes.string
+};

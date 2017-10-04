@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import PropTypes from 'proptypes';
 import browseButton from './BrowseButton';
 import uploadButton from './UploadButton';
 
@@ -10,38 +11,25 @@ const EVENTS = [
   'UploadComplete', 'Destroy', 'Error'
 ];
 
-module.exports = React.createFactory(React.createClass({
-  displayName: 'Plupload',
-  propTypes: {
-    'onPostInit': React.PropTypes.func,
-    'onBrowse': React.PropTypes.func,
-    'onRefresh': React.PropTypes.func,
-    'onStateChanged': React.PropTypes.func,
-    'onQueueChanged': React.PropTypes.func,
-    'onOptionChanged': React.PropTypes.func,
-    'onBeforeUpload': React.PropTypes.func,
-    'onUploadProgress': React.PropTypes.func,
-    'onFileFiltered': React.PropTypes.func,
-    'onFilesAdded': React.PropTypes.func,
-    'onFilesRemoved': React.PropTypes.func,
-    'onFileUploaded': React.PropTypes.func,
-    'onChunkUploaded': React.PropTypes.func,
-    'onUploadComplete': React.PropTypes.func,
-    'onDestroy': React.PropTypes.func,
-    'onError': React.PropTypes.func,
-    'id': React.PropTypes.string.isRequired,
-    'buttonSelect': React.PropTypes.string,
-    'buttonUpload': React.PropTypes.string,
-    'autoUpload': React.PropTypes.bool
-  },
-  id: new Date().valueOf(),
-  getInitialState() {
-    return {files: [], uploadState: false, progress: {}};
-  },
+class Plupload extends React.Component {
+  constructor() {
+    super();
+    this.id =new Date().valueOf();
+    this.state = {files: [], uploadState: false, progress: {}};
+    this.runUploader = this.runUploader.bind(this);
+    this.getComponentId = this.getComponentId.bind(this);
+    this.refresh = this.refresh.bind(this);
+    this.initUploader = this.initUploader.bind(this);
+    this.list = this.list.bind(this);
+    this.clearAllFiles = this.clearAllFiles.bind(this);
+    this.clearFailedFiles = this.clearFailedFiles.bind(this);
+    this.removeFile = this.removeFile.bind(this);
+    this.doUpload = this.doUpload.bind(this);
+  }
 
   checkUploader() {
     return window.plupload !== undefined;
-  },
+  }
 
   runUploader() {
     const self = this;
@@ -123,7 +111,7 @@ module.exports = React.createFactory(React.createClass({
       stateProgress[file.id] = file.percent;
       self.setState({progress: stateProgress});
     });
-  },
+  }
 
   componentDidMount() {
     const self = this;
@@ -138,22 +126,22 @@ module.exports = React.createFactory(React.createClass({
         }
       }, 500);
     }
-  },
+  }
 
   componentDidUpdate() {
     if(this.checkUploader()) {
       this.refresh();
     }
-  },
+  }
 
   getComponentId() {
     return this.props.id || 'react_plupload_' + this.id;
-  },
+  }
 
   refresh() {
     // Refresh to append events to buttons again.
     this.uploader.refresh();
-  },
+  }
 
   initUploader() {
     this.uploader = new window.plupload.Uploader(_.extend({
@@ -165,7 +153,7 @@ module.exports = React.createFactory(React.createClass({
       url: '/upload',
       flash_swf_url: '/plupload-2.1.8/js/Moxie.swf'
     }, this.props));
-  },
+  }
 
   // Display selected files
   list() {
@@ -186,13 +174,13 @@ module.exports = React.createFactory(React.createClass({
         const percent = self.state.progress[val.id] || 0;
         progressBar = React.createElement('div', {className: 'progress'},
           React.createElement('div', {
-            className: 'progress-bar',
-            role: 'progressbar',
-            'aria-valuenow': percent,
-            'aria-valuemin': 0,
-            'aria-valuemax': 100,
-            style: {width: percent + '%'}
-          },
+              className: 'progress-bar',
+              role: 'progressbar',
+              'aria-valuenow': percent,
+              'aria-valuemin': 0,
+              'aria-valuemax': 100,
+              style: {width: percent + '%'}
+            },
             React.createElement('span', {className: 'sr-only'}, percent + 'complete')
           )
         );
@@ -212,13 +200,13 @@ module.exports = React.createFactory(React.createClass({
         React.createElement('p', {className: bgSuccess}, val.name, ' ', delButton), progressBar, errorDiv
       );
     });
-  },
+  }
 
   clearAllFiles() {
     _.filter(this.state.files, (file) => {
       this.uploader.removeFile(file.id);
     });
-  },
+  }
 
   clearFailedFiles() {
     _.filter(this.state.files, (file) => {
@@ -227,19 +215,19 @@ module.exports = React.createFactory(React.createClass({
       }
       return !file.error;
     });
-  },
+  }
 
   removeFile(id) {
     this.uploader.removeFile(id);
     _.filter(this.state.files, (file) => {
       return file.id !== id;
     });
-  },
+  }
 
   doUpload(e) {
     e.preventDefault();
     this.uploader.start();
-  },
+  }
 
   render() {
     const propsSelect = {
@@ -263,4 +251,29 @@ module.exports = React.createFactory(React.createClass({
       uploadButton(propsUpload)
     );
   }
-}));
+}
+
+Plupload.propTypes = {
+    'onPostInit': PropTypes.func,
+    'onBrowse': PropTypes.func,
+    'onRefresh': PropTypes.func,
+    'onStateChanged': PropTypes.func,
+    'onQueueChanged': PropTypes.func,
+    'onOptionChanged': PropTypes.func,
+    'onBeforeUpload': PropTypes.func,
+    'onUploadProgress': PropTypes.func,
+    'onFileFiltered': PropTypes.func,
+    'onFilesAdded': PropTypes.func,
+    'onFilesRemoved': PropTypes.func,
+    'onFileUploaded': PropTypes.func,
+    'onChunkUploaded': PropTypes.func,
+    'onUploadComplete': PropTypes.func,
+    'onDestroy': PropTypes.func,
+    'onError': PropTypes.func,
+    'id': PropTypes.string.isRequired,
+    'buttonSelect': PropTypes.string,
+    'buttonUpload': PropTypes.string,
+    'autoUpload': PropTypes.bool
+};
+
+export default Plupload;
