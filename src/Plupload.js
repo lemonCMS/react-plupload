@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'proptypes';
+import PropTypes from 'prop-types';
 import browseButton from './BrowseButton';
 import uploadButton from './UploadButton';
 

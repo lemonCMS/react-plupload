@@ -1,6 +1,6 @@
 import _omit from 'lodash/omit';
 import React from 'react';
-import PropTypes from 'proptypes';
+import PropTypes from 'prop-types';
 
 class BrowseButton extends React.Component {
 
