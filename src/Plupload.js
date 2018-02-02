@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import browseButton from './BrowseButton';
-import uploadButton from './UploadButton';
+import BrowseButton from './BrowseButton';
+import UploadButton from './UploadButton';
 
 let count = 0;
 const EVENTS = [
@@ -247,8 +247,8 @@ class Plupload extends React.Component {
 
     return React.createElement('div', {className: 'my-list', id: 'container' + this.id},
       React.createElement('ul', {className: 'list-unstyled'}, list),
-      browseButton(propsSelect),
-      uploadButton(propsUpload)
+      BrowseButton(propsSelect),
+      UploadButton(propsUpload)
     );
   }
 }
