@@ -245,10 +245,13 @@ class Plupload extends React.Component {
 
     const list = this.list();
 
+    const BButton = React.createFactory(BrowseButton);
+    const UButton = React.createFactory(UploadButton);
+
     return React.createElement('div', {className: 'my-list', id: 'container' + this.id},
       React.createElement('ul', {className: 'list-unstyled'}, list),
-      BrowseButton(propsSelect),
-      UploadButton(propsUpload)
+      BButton(propsSelect),
+      UButton(propsUpload)
     );
   }
 }
