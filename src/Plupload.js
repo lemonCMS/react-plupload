@@ -65,7 +65,7 @@ class Plupload extends React.Component {
     this.uploader.bind('FilesRemoved', (up, rmFiles) => {
       const stateFiles = self.state.files;
       const files = _.filter(stateFiles, (file) => {
-        console.log(rmFiles, file);
+        // console.log(rmFiles, file);
         return -1 !== _.find(rmFiles, {id: file.id});
       });
       self.setState({files: files});
