@@ -20,3 +20,5 @@ class BrowseButton extends React.Component {
 BrowseButton.propTypes = {
   'content': PropTypes.string
 };
+
+export default BrowseButton;
