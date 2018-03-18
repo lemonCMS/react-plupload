@@ -25,6 +25,7 @@ class Plupload extends React.Component {
     this.clearFailedFiles = this.clearFailedFiles.bind(this);
     this.removeFile = this.removeFile.bind(this);
     this.doUpload = this.doUpload.bind(this);
+    this.container = null;
   }
 
   checkUploader() {
@@ -145,13 +146,12 @@ class Plupload extends React.Component {
 
   initUploader() {
     this.uploader = new window.plupload.Uploader(_.extend({
-      container:  'container' + this.id,
-      runtimes: 'flash',
+      container:  this.ref,
+      runtimes: 'html5',
       multipart: true,
       chunk_size: '1mb',
       browse_button: this.getComponentId(),
       url: '/upload',
-      flash_swf_url: '/plupload-2.1.8/js/Moxie.swf'
     }, this.props));
   }
 
@@ -203,25 +203,28 @@ class Plupload extends React.Component {
   }
 
   clearAllFiles() {
-    _.filter(this.state.files, (file) => {
+    const state = _.filter(this.state.files, (file) => {
       this.uploader.removeFile(file.id);
     });
+    this.setState({files: state});
   }
 
   clearFailedFiles() {
-    _.filter(this.state.files, (file) => {
+    const state = _.filter(this.state.files, (file) => {
       if (file.error) {
         this.uploader.removeFile(file.id);
       }
       return !file.error;
     });
+    this.setState({files: state});
   }
 
   removeFile(id) {
     this.uploader.removeFile(id);
-    _.filter(this.state.files, (file) => {
+    const state = _.filter(this.state.files, (file) => {
       return file.id !== id;
     });
+    this.setState({files: state});
   }
 
   doUpload(e) {
@@ -245,13 +248,14 @@ class Plupload extends React.Component {
 
     const list = this.list();
 
-    const BButton = React.createFactory(BrowseButton);
-    const UButton = React.createFactory(UploadButton);
-
-    return React.createElement('div', {className: 'my-list', id: 'container' + this.id},
-      React.createElement('ul', {className: 'list-unstyled'}, list),
-      BButton(propsSelect),
-      UButton(propsUpload)
+    return (
+      <div className={'my-list'} ref={ref => (this.container = ref)}>
+        <ul className={'list-unstyled'}>
+          {list}
+        </ul>
+        <BrowseButton {...propsSelect} />
+        <UploadButton {...propsUpload} />
+      </div>
     );
   }
 }

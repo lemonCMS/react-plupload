@@ -8,10 +8,6 @@ class BrowseButton extends React.Component {
     return false;
   }
 
-  componentWillUpdate() {
-
-  }
-
   render() {
     return React.createElement('button', _omit(this.props, 'content'), this.props.content);
   }
