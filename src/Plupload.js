@@ -146,7 +146,7 @@ class Plupload extends React.Component {
 
   initUploader() {
     this.uploader = new window.plupload.Uploader(_.extend({
-      container:  this.ref,
+      container:  `plupload_${this.props.id}`,
       runtimes: 'html5',
       multipart: true,
       chunk_size: '1mb',
@@ -249,7 +249,7 @@ class Plupload extends React.Component {
     const list = this.list();
 
     return (
-      <div className={'my-list'} ref={ref => (this.container = ref)}>
+      <div id={`plupload_${this.props.id}`}className={'my-list'} ref={ref => (this.container = ref)}>
         <ul className={'list-unstyled'}>
           {list}
         </ul>
